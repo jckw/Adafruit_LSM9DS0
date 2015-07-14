@@ -1,15 +1,29 @@
 #!#!/usr/bin/python
 
-# 
+# Copyright (c) 2015, Jack Weatherilt
+# All rights reserved.
 #
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are met:
 #
+#  1. Redistributions of source code must retain the above copyright notice,
+#     this list of conditions and the following disclaimer.
 #
+#  2. Redistributions in binary form must reproduce the above copyright notice,
+#     this list of conditions and the following disclaimer in the documentation
+#     and/or other materials provided with the distribution.
 #
-#
-#
-#
-#
-#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+# AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+# ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+# LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+# CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+# ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+# POSSIBILITY OF SUCH DAMAGE.
 
 
 from Adafruit_I2C import Adafruit_I2C
@@ -70,39 +84,39 @@ class Adafruit_LSM9DS0(Adafruit_I2C):
     # Various settings included in the Arduino library. I haven't used these,
     # to keep to a default setting for simplicity, however, users can change
     # the settings easily.
-    LSM9DS0_ACCELRANGE_2G                = (0b000 << 3)
-    LSM9DS0_ACCELRANGE_4G                = (0b001 << 3)
-    LSM9DS0_ACCELRANGE_6G                = (0b010 << 3)
-    LSM9DS0_ACCELRANGE_8G                = (0b011 << 3)
-    LSM9DS0_ACCELRANGE_16G               = (0b100 << 3)
+    LSM9DS0_ACCELRANGE_2G                = 0b000 << 3
+    LSM9DS0_ACCELRANGE_4G                = 0b001 << 3
+    LSM9DS0_ACCELRANGE_6G                = 0b010 << 3
+    LSM9DS0_ACCELRANGE_8G                = 0b011 << 3
+    LSM9DS0_ACCELRANGE_16G               = 0b100 << 3
 
-    LSM9DS0_ACCELDATARATE_POWERDOWN      = (0b0000 << 4)
-    LSM9DS0_ACCELDATARATE_3_125HZ        = (0b0001 << 4)
-    LSM9DS0_ACCELDATARATE_6_25HZ         = (0b0010 << 4)
-    LSM9DS0_ACCELDATARATE_12_5HZ         = (0b0011 << 4)
-    LSM9DS0_ACCELDATARATE_25HZ           = (0b0100 << 4)
-    LSM9DS0_ACCELDATARATE_50HZ           = (0b0101 << 4)
-    LSM9DS0_ACCELDATARATE_100HZ          = (0b0110 << 4)
-    LSM9DS0_ACCELDATARATE_200HZ          = (0b0111 << 4)
-    LSM9DS0_ACCELDATARATE_400HZ          = (0b1000 << 4)
-    LSM9DS0_ACCELDATARATE_800HZ          = (0b1001 << 4)
-    LSM9DS0_ACCELDATARATE_1600HZ         = (0b1010 << 4)
+    LSM9DS0_ACCELDATARATE_POWERDOWN      = 0b0000 << 4
+    LSM9DS0_ACCELDATARATE_3_125HZ        = 0b0001 << 4
+    LSM9DS0_ACCELDATARATE_6_25HZ         = 0b0010 << 4
+    LSM9DS0_ACCELDATARATE_12_5HZ         = 0b0011 << 4
+    LSM9DS0_ACCELDATARATE_25HZ           = 0b0100 << 4
+    LSM9DS0_ACCELDATARATE_50HZ           = 0b0101 << 4
+    LSM9DS0_ACCELDATARATE_100HZ          = 0b0110 << 4
+    LSM9DS0_ACCELDATARATE_200HZ          = 0b0111 << 4
+    LSM9DS0_ACCELDATARATE_400HZ          = 0b1000 << 4
+    LSM9DS0_ACCELDATARATE_800HZ          = 0b1001 << 4
+    LSM9DS0_ACCELDATARATE_1600HZ         = 0b1010 << 4
 
-    LSM9DS0_MAGGAIN_2GAUSS               = (0b00 << 5)
-    LSM9DS0_MAGGAIN_4GAUSS               = (0b01 << 5)
-    LSM9DS0_MAGGAIN_8GAUSS               = (0b10 << 5)
-    LSM9DS0_MAGGAIN_12GAUSS              = (0b11 << 5)
+    LSM9DS0_MAGGAIN_2GAUSS               = 0b00 << 5
+    LSM9DS0_MAGGAIN_4GAUSS               = 0b01 << 5
+    LSM9DS0_MAGGAIN_8GAUSS               = 0b10 << 5
+    LSM9DS0_MAGGAIN_12GAUSS              = 0b11 << 5
 
-    LSM9DS0_MAGDATARATE_3_125HZ          = (0b000 << 2)
-    LSM9DS0_MAGDATARATE_6_25HZ           = (0b001 << 2)
-    LSM9DS0_MAGDATARATE_12_5HZ           = (0b010 << 2)
-    LSM9DS0_MAGDATARATE_25HZ             = (0b011 << 2)
-    LSM9DS0_MAGDATARATE_50HZ             = (0b100 << 2)
-    LSM9DS0_MAGDATARATE_100HZ            = (0b101 << 2)
+    LSM9DS0_MAGDATARATE_3_125HZ          = 0b000 << 2
+    LSM9DS0_MAGDATARATE_6_25HZ           = 0b001 << 2
+    LSM9DS0_MAGDATARATE_12_5HZ           = 0b010 << 2
+    LSM9DS0_MAGDATARATE_25HZ             = 0b011 << 2
+    LSM9DS0_MAGDATARATE_50HZ             = 0b100 << 2
+    LSM9DS0_MAGDATARATE_100HZ            = 0b101 << 2
 
-    LSM9DS0_GYROSCALE_245DPS             = (0b00 << 4)
-    LSM9DS0_GYROSCALE_500DPS             = (0b01 << 4)
-    LSM9DS0_GYROSCALE_2000DPS            = (0b10 << 4)
+    LSM9DS0_GYROSCALE_245DPS             = 0b00 << 4
+    LSM9DS0_GYROSCALE_500DPS             = 0b01 << 4
+    LSM9DS0_GYROSCALE_2000DPS            = 0b10 << 4
 
     def __init__(self, busnum=-1, debug=False):
         # Each feature is given a call name. Although The magnetometer and
@@ -125,7 +139,7 @@ class Adafruit_LSM9DS0(Adafruit_I2C):
         self.gyro.write8(self.LSM9DS0_CTRL_REG1_G, 0b00001111) # Normal power mode, XYZ enabled
         self.gyro.write8(self.LSM9DS0_CTRL_REG4_G, 0b00110000) # Continuous update, 2000 dps
 
-    def rawAccel():
+    def rawAccel(self):
         rArrAccel = self.accel.readList(self.LSM9DS0_OUT_X_L_A, 6) # Array of raw high and low bytes is taken
         arrAccel = [] # Temporary array created
 
@@ -139,7 +153,7 @@ class Adafruit_LSM9DS0(Adafruit_I2C):
         # arrAccel[0] would be holding the X data for the accelerometer.
         return arrAccel
 
-    def rawMag():
+    def rawMag(self):
         rArrMag = self.mag.readList(self.LSM9DS0_OUT_X_L_M, 6) # Array of raw high and low bytes is taken
         arrMag = [] # Temporary array created
 
@@ -152,7 +166,7 @@ class Adafruit_LSM9DS0(Adafruit_I2C):
 
         return arrMag
 
-    def rawGyro():
+    def rawGyro(self):
         rArrGyro = self.gyro.readList(self.LSM9DS0_OUT_X_L_G, 6) # Array of raw high and low bytes is taken
         arrGyro = [] # Temporary array created
 
@@ -167,12 +181,12 @@ class Adafruit_LSM9DS0(Adafruit_I2C):
 
 
 ########### TEMPERATURE, UNSURE, 12 BIT FORMAT, RIGHT JUSTIFIED ##############
-    def rawTemp():
+    def rawTemp(self):
         arrTemp = self.mag.readList(self.LSM9DS0_OUT_TEMP_L_XM, 2) # Array of raw high and low bytes is taken
 
         temp = arrTemp[0] | arrTemp[1] << 6
 
-        if temp > 32767:
-            temp -= 65536
+        if temp > 2047:
+            temp -= 4096
 
         return temp
