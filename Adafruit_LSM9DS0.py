@@ -1,4 +1,18 @@
-from Adafruit_I2C import Adafruit_I2C,
+#!#!/usr/bin/python
+
+# 
+#
+#
+#
+#
+#
+#
+#
+#
+#
+
+
+from Adafruit_I2C import Adafruit_I2C
 import math
 
 class Adafruit_LSM9DS0(Adafruit_I2C):
