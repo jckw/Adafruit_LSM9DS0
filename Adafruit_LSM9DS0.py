@@ -1,4 +1,4 @@
-#!#!/usr/bin/python
+#!/usr/bin/python
 
 # Copyright (c) 2015, Jack Weatherilt
 # All rights reserved.
@@ -118,6 +118,7 @@ class Adafruit_LSM9DS0(Adafruit_I2C):
     LSM9DS0_GYROSCALE_500DPS             = 0b01 << 4
     LSM9DS0_GYROSCALE_2000DPS            = 0b10 << 4
 
+    # Debug set to true for the moment, to find bugs
     def __init__(self, busnum=-1, debug=False):
         # Each feature is given a call name. Although The magnetometer and
         # accelerometer use the same address, they've been given different
@@ -140,53 +141,62 @@ class Adafruit_LSM9DS0(Adafruit_I2C):
         self.gyro.write8(self.LSM9DS0_CTRL_REG4_G, 0b00110000) # Continuous update, 2000 dps
 
     def rawAccel(self):
-        rArrAccel = self.accel.readList(self.LSM9DS0_OUT_X_L_A, 6) # Array of raw high and low bytes is taken
-        arrAccel = [] # Temporary array created
+        # Reading each induvidual byte is the simplest method of getting data,
+        # however, it could cause inaccuracy due to values changing during readings
+        # of different registers. A filter should be employed in the fusing of the
+        # data taken
+        accelX = self.accel.readU8(self.LSM9DS0_OUT_X_L_A) | self.accel.readU8(self.LSM9DS0_OUT_X_H_A) << 8
+        accelY = self.accel.readU8(self.LSM9DS0_OUT_Y_L_A) | self.accel.readU8(self.LSM9DS0_OUT_Y_H_A) << 8
+        accelZ = self.accel.readU8(self.LSM9DS0_OUT_Z_L_A) | self.accel.readU8(self.LSM9DS0_OUT_Z_H_A) << 8
 
-        for i in range(0, 6, 2):
-            valAccel = rArrAccel[i] | rArrAccel[i+1] << 8 # Bitwise Or and bitshift
-            if valAccel > 32767:
-                valAccel -= 65536 # If larger than 2^16 - 1, value is negative
-            arrAccel.append(valAccel) # 16 bit number added to the array
+        accelArr = [accelX, accelY, accelZ]
 
-        # The X, Y and Z values are held in the array in that order. Therefore
-        # arrAccel[0] would be holding the X data for the accelerometer.
-        return arrAccel
+        # Values are signed and therefore must be checked
+        for i in range(len(accelArr)):
+            if accelArr[i] > 32767:
+                accelArr[i] -= 65536
+
+        return accelArr
 
     def rawMag(self):
-        rArrMag = self.mag.readList(self.LSM9DS0_OUT_X_L_M, 6) # Array of raw high and low bytes is taken
-        arrMag = [] # Temporary array created
+        magX = self.mag.readU8(self.LSM9DS0_OUT_X_L_M) | self.mag.readU8(self.LSM9DS0_OUT_X_H_M) << 8
+        magY = self.mag.readU8(self.LSM9DS0_OUT_Y_L_M) | self.mag.readU8(self.LSM9DS0_OUT_Y_H_M) << 8
+        magZ = self.mag.readU8(self.LSM9DS0_OUT_Z_L_M) | self.mag.readU8(self.LSM9DS0_OUT_Z_H_M) << 8
 
-        # Iteration over the byte array to convert to one 16 bit, signed number
-        for i in range(0, 6, 2):
-            valMag = rArrMag[i] | rArrMag[i+1] << 8 # Bitwise Or and bitshift
-            if valMag > 32767:
-                valMag -= 65536 # If larger than 2^16 - 1, value is negative
-            arrMag.append(valMag) # 16 bit number added to the array
+        magArr = [magX, magY, magZ]
 
-        return arrMag
+        for i in range(len(magArr)):
+            if magArr[i] > 32767:
+                magArr[i] -= 65536
+
+        return magArr
 
     def rawGyro(self):
-        rArrGyro = self.gyro.readList(self.LSM9DS0_OUT_X_L_G, 6) # Array of raw high and low bytes is taken
-        arrGyro = [] # Temporary array created
+        gyroX = self.gyro.readU8(self.LSM9DS0_OUT_X_L_G) | self.gyro.readU8(self.LSM9DS0_OUT_X_H_G) << 8
+        gyroY = self.gyro.readU8(self.LSM9DS0_OUT_Y_L_G) | self.gyro.readU8(self.LSM9DS0_OUT_Y_H_G) << 8
+        gyroZ = self.gyro.readU8(self.LSM9DS0_OUT_Z_L_G) | self.gyro.readU8(self.LSM9DS0_OUT_Z_H_G) << 8
 
-        # Iteration over the byte array to convert to one 16 bit, signed number
-        for i in range(0, 6, 2):
-            valGyro = rArrGyro[i] | rArrGyro[i+1] << 8 # Bitwise Or and bitshift
-            if valGyro > 32767:
-                valGyro -= 65536 # If larger than 2^16 - 1, value is negative
-            arrGyro.append(valGyro) # 16 bit number added to the array
+        gyroArr = [gyroX, gyroY, gyroZ]
 
-        return arrGyro
+        for i in range(len(gyroArr)):
+            if gyroArr[i] > 32767:
+                gyroArr[i] -= 65536
 
+        return gyroArr
 
-########### TEMPERATURE, UNSURE, 12 BIT FORMAT, RIGHT JUSTIFIED ##############
+    # Read all the XYZ values from each sensor and fuse into one 2D array
+    def rawAll(self):
+        allData = []
+        allData.append(self.rawAccel())
+        allData.append(self.rawMag())
+        allData.append(self.rawGyro())
+
+        return allData
+
+    # The documentation on reading temperature is not very clear, and it appears
+    # that the sensor does not provide an ambient temperature reading, with no
+    # absolute value, instead measuring change in temp inside the chip
     def rawTemp(self):
-        arrTemp = self.mag.readList(self.LSM9DS0_OUT_TEMP_L_XM, 2) # Array of raw high and low bytes is taken
-
-        temp = arrTemp[0] | arrTemp[1] << 6
-
-        if temp > 2047:
-            temp -= 4096
+        temp = self.mag.readList(self.LSM9DS0_OUT_TEMP_L_XM) | self.mag.readList(self.LSM9DS0_OUT_TEMP_H_XM) << 8
 
         return temp
