@@ -26,12 +26,10 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 
-from Adafruit_I2C import Adafruit_I2C
+import Adafruit_GPIO.I2C as I2C
 import math
 
-class Adafruit_LSM9DS0(Adafruit_I2C):
-    i2c = None
-
+class LSM9DS0(object):
     # The same address is used for both the magnetometer and accelerometer, but
     # each has their own variable, to avoid confusion.
     LSM9DS0_MAG_ADDRESS	    =   0x1D
@@ -118,14 +116,14 @@ class Adafruit_LSM9DS0(Adafruit_I2C):
     LSM9DS0_GYROSCALE_500DPS             = 0b01 << 4
     LSM9DS0_GYROSCALE_2000DPS            = 0b10 << 4
 
-    # Debug set to true for the moment, to find bugs
-    def __init__(self, busnum=-1, debug=False):
+    # Debug set to false for the moment. Change to find bugs
+    def __init__(self, busnum=None):
         # Each feature is given a call name. Although The magnetometer and
         # accelerometer use the same address, they've been given different
         # names for clarity.
-        self.mag    = Adafruit_I2C(self.LSM9DS0_MAG_ADDRESS, busnum, debug)
-        self.accel  = Adafruit_I2C(self.LSM9DS0_ACCEL_ADDRESS, busnum, debug)
-        self.gyro   = Adafruit_I2C(self.LSM9DS0_GYRO_ADDRESS, busnum, debug)
+        self.mag    = I2C.get_i2c_device(self.LSM9DS0_MAG_ADDRESS, busnum)
+        self.accel  = I2C.get_i2c_device(self.LSM9DS0_ACCEL_ADDRESS, busnum)
+        self.gyro   = I2C.get_i2c_device(self.LSM9DS0_GYRO_ADDRESS, busnum)
 
         # Magnetometer initialisation
         self.mag.write8(self.LSM9DS0_CTRL_REG5_XM, 0b11110000) # Temperature sensor enabled, high res mag, 50Hz

@@ -1,9 +1,13 @@
-# LSM9DS0 Python Module
+# Adafruit LSM9DS0 Python Module
 ###### Designed for use with the Raspberry Pi, and Adafruit's LSM9DS0 breakout board
 
-More information on how to use it will come up here soon, that is after it's finished!
+This is a basic Python module for use with Adafruit's LSM9DS0 breakout board. It currently reads byte data through I2C, for all the sensors available. 
 
-Please **_don't_** steal it without giving credit!
+This is **raw data**, obviously – but, there are some examples of how data can be fused/ used in the examples folder.
+
+Modifications and the ability to change more settings will (probably) come soon.
+
+Please ***don't*** steal it without giving credit!
 
 
 
