@@ -5,11 +5,9 @@ This is a basic Python module for use with Adafruit's LSM9DS0 breakout board. Re
 
 The code is currently written for Python 2.7, since the Adafruit GPIO library is not written Python 3 (sadly). However, the code should work for Python 3 if Adafruit's library is made compatible; if not, with a few minimal changes. 
 
-This is **raw data**, obviously – but there are some examples of how data can be fused/ used in the examples folder.
+This is **raw data**, obviously – but there are some examples of how data can be fused/ used in the examples folder. Calibration is still needed.
 
 Modifications and the ability to change more settings will (probably) come soon.
 
-Please ***don't*** steal it without giving credit!
-
-
+This project is licensed under the MIT license.
 
