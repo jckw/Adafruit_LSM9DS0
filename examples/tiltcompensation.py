@@ -12,8 +12,8 @@ imu = Adafruit_LSM9DS0.LSM9DS0()
 table = []
 
 while True:
-	(mag_x, mag_y, mag_z) = imu.rawMag()
-	(acc_x, acc_y, acc_z) = imu.rawAccel()
+	(mag_x, mag_y, mag_z) = imu.readMag()
+	(acc_x, acc_y, acc_z) = imu.readAccel()
 
 	# Normalising the accelerometer data
 	# Dividing variable (don't know why I use this)
