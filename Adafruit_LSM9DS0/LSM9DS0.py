@@ -69,6 +69,7 @@ LSM9DS0_OUT_Z_H_M       = 0x0D
 LSM9DS0_OUT_XYZ_LH_M    = ((LSM9DS0_OUT_X_L_M, LSM9DS0_OUT_X_H_M),
                            (LSM9DS0_OUT_Y_L_M, LSM9DS0_OUT_Y_H_M),
                            (LSM9DS0_OUT_Z_L_M, LSM9DS0_OUT_Z_H_M))
+
 # Shared (mag and accel) addresses
 LSM9DS0_WHO_AM_I_XM     = 0x0F
 LSM9DS0_INT_CTRL_REG_M  = 0x12
@@ -212,6 +213,7 @@ class LSM9DS0(object):
     # that the sensor does not provide an ambient temperature reading, with no
     # absolute value, instead measuring change in temp inside the chip
     def rawTemp(self):
-        temp = self.mag.readList(LSM9DS0_OUT_TEMP_L_XM) | self.mag.readList(LSM9DS0_OUT_TEMP_H_XM) << 8
+        """Returns temperature value (WARNING: not ambient temperature)"""
 
-        return temp
+        # The temperature values are read from mag/ accel device
+        return self.readSensor(self.mag, LSM9DS0_OUT_TEMP_LH)
